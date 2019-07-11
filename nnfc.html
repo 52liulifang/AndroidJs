@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<title>手机H5测试</title>
+<style>
+*{
+ text-align: center;
+ }
+ nav li{
+ display: inline;
+ width: 24%;
+ text-decoration: none;
+ padding: 15px;
+ }
+ li:hover{
+  background-color: blue;
+ }
+ section{
+  height: 100%;
+}
+        	body{
+        		/*font-size: 50px;*/
+        		padding: 5px 0;
+        	}
+            textarea,#content{
+                width: 100%;
+                height: 400px;
+                /*font-size: 50px;*/
+                background-color: blue;
+            }
+            button,#import{
+                width: 100%;
+                height: 100px;
+                font-size: 50px;
+                margin-top: 30px;
+            }
+			input,#shuru{
+			width:20%;
+			height:30px;
+			font-size:20px;
+			margin-top:5px;
+			}
+			
+        </style>
+		<script type="text/javascript">
+		var cardtype="员工卡";
+		window.onload=function () {
+ //获取 li 也就是选项卡选项tab
+ var nav=document.getElementById('nav');
+ var oNav=nav.getElementsByTagName('li');
+ //获取 包裹在container里面的section（内容）
+ var container=document.getElementById('container');
+ var oDiv=container.getElementsByClassName('tab');
+ //使用 循环依次得到li 
+ for(var i=0;i<oNav.length;i++){
+  oNav[i].index=i;
+ //每一次得到li后执行鼠标点击操作则触发函数function  
+  oNav[i].onclick=function () { //此处除了可以使用onclick，还可以使用onmouseover
+ //在li的个数内依次展示内容  
+  for(var i=0;i<oNav.length;i++){
+   oNav[i].className='';
+   oDiv[i].style.display="none";
+  }
+  this.className='act';
+  cardtype=this.innerHTML;
+  oDiv[this.index].style.display="block"
+  }
+  for(var m=1;m<oNav.length;m++){
+   oNav[m].className='';
+   oDiv[m].style.display="none";
+  }
+ }
+}
+function backdata(arg){
+			document.getElementById("shownfcinfo").innerHTML=(arg);
+        }
+ function pargs(){
+ var card1_str="";
+ if(cardtype=="员工卡"){
+ for(var m=0;m<3;m++){
+ card1_str=card1_str+document.getElementById('str'+m).value+",";
+ }
+ 
+ }else{
+ var n=3;
+ for(var m=0;m<11;m++){
+ card1_str=card1_str+document.getElementById('str'+n).value+",";
+ n++;
+ }
+ }
+ return card1_str;
+ }
+		</script>
+</head>
+<body>
+<nav id="nav">
+ <ul id="test">
+ <li class="act">员工卡</li>
+ <li>生产卡</li>
+ </ul>
+</nav>
+<div id="container" style="color:#00FF00">
+<section class="tab" style="background-color: tomato">卡类型<input id="str0" type="text" name="a" value="byte[1]">员工编号<input id="str1" type="text" name="a" value="byte[2]">员工名称<input id="str2" type="text" value="byte[12]"style="width:76%;"></section>
+ <section class="tab" style="background-color: cyan">卡类型<input id="str3" type="text" name="a" value="[1]" style="width:5%;">ID<input id="str4" type="text" value="[4]" style="width:15%;">总经长<input id="str5" type="text" name="a" value="[4]" style="width:15%;"><br>经密<input id="str6" type="text" name="a" value="[2]" style="width:10%;">纬密<input id="str7" type="text" name="a" value="[2]" style="width:10%;">织缩<input id="str8" type="text" name="a" value="[2]" style="width:10%;">产品编号<input id="str9" type="text" name="a" value="[24]" style="width:90%;"><br>扣号<input id="str10" type="text" name="a" value="[8]" style="width:30%;">经轴编号<input id="str11" type="text" name="a" value="[16]" style="width:60%;">批号<input id="str12" type="text" name="a" value="[2]" style="width:10%;">备注<input id="str13" type="text" name="a" value="byte[30]" style="width:90%;"></section>
+
+<button id="bt1" type="button" onclick="justTest.writeNfc(pargs(),cardtype)">写入信息</button>
+<button id="bt2" type="button" onclick="justTest.readNfc(cardtype)">读取信息</button>
+<p id="shownfcinfo">这里显示读<br>取到的信息</p>
+</div>
+</body>
+</html>
